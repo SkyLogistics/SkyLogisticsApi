@@ -70,6 +70,6 @@ Get warehouses UkrPoshta
 
      docker exec -it php74-cli php examples/getWarehousesUkrPoshta.php
 
-Get warehouses UkrPoshta
+Get warehouses Justin
 
      docker exec -it php74-cli php examples/getWarehousesJustin.php
