@@ -21,7 +21,11 @@ class CheckApiTest extends TestCase
     protected function setUp(): void
     {
         $this->service = new SkyApiService(new Client);
-        $this->service->auth('your login', 'your key');
+        require 'env.php';
+        if ($credentials === []) {
+            exit('Check your env.php file and put credentials');
+        }
+        $this->service->auth($credentials['API_LOGIN'], $credentials['API_KEY']);
     }
 
     /**
@@ -61,7 +65,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesNovaPoshtaFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses('000000001', 100, 1);
+        $warehouses = $this->service->getWarehouses('000000001', 10, 1);
         $novaPoshta = [];
         if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
             foreach ($warehouses['response']['result'] as $warehouse) {
@@ -69,7 +73,7 @@ class CheckApiTest extends TestCase
             }
         }
 
-        $this->assertCount(100, $novaPoshta);
+        $this->assertCount(10, $novaPoshta);
     }
 
     /**
@@ -79,7 +83,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesUkrPoshtaFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses('000000004', 100, 1);
+        $warehouses = $this->service->getWarehouses('000000004', 10, 1);
         $ukrPoshta  = [];
         if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
             foreach ($warehouses['response']['result'] as $warehouse) {
@@ -87,7 +91,7 @@ class CheckApiTest extends TestCase
             }
         }
 
-        $this->assertCount(100, $ukrPoshta);
+        $this->assertCount(10, $ukrPoshta);
     }
 
     /**
@@ -97,7 +101,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesJustinFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses('000000006', 100, 1);
+        $warehouses = $this->service->getWarehouses('000000006', 10, 1);
         $justin     = [];
         if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
             foreach ($warehouses['response']['result'] as $warehouse) {
@@ -105,6 +109,6 @@ class CheckApiTest extends TestCase
             }
         }
 
-        $this->assertCount(100, $justin);
+        $this->assertCount(10, $justin);
     }
 }
