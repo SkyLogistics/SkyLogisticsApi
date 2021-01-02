@@ -38,10 +38,6 @@ unit-tests:
 	docker-compose run --rm --no-deps php-cli ./vendor/bin/phpunit --no-coverage --stop-on-error --stop-on-failure --testsuite Unit
 
 ## Run unit tests
-functional-tests:
-	docker-compose run --rm --no-deps php-cli ./vendor/bin/phpunit --no-coverage --stop-on-error --stop-on-failure --testsuite Functional
-
-## Run unit tests
 static-analysis:
 	docker-compose run --rm --no-deps php-cli ./vendor/bin/phpstan analyze
 
