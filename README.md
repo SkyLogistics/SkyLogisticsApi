@@ -54,6 +54,22 @@ Static analysis check
 	    
 ## Results
 
-Test data
+Get Parcel Info (history, statuses, info)
 
-    docker exec -it php74-cli php app.php
+     docker exec -it php74-cli php examples/getParcelInfo.php
+
+Get statuses
+
+     docker exec -it php74-cli php examples/getStatuses.php
+
+Get warehouses NovaPoshta
+
+     docker exec -it php74-cli php examples/getWarehousesNovaPoshta.php
+
+Get warehouses UkrPoshta
+
+     docker exec -it php74-cli php examples/getWarehousesUkrPoshta.php
+
+Get warehouses UkrPoshta
+
+     docker exec -it php74-cli php examples/getWarehousesJustin.php
