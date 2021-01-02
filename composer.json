@@ -1,0 +1,34 @@
+{
+  "name": "akravchuk/docker-php74-composer-phpunit",
+  "description": "Sky logistics docker project for console php 7.4 projects with composer and phpunit.",
+  "authors": [
+    {
+      "name": "Aleksandr Kravchuk",
+      "email": "aleksandr.kravchuk.os@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-bcmath": "*",
+    "ext-mbstring": "*",
+    "guzzlehttp/guzzle": "^7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "SkyLogistics\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SkyLogisticsTest\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "phpstan/phpstan": "^0.12.64",
+    "friendsofphp/php-cs-fixer": "^2.17"
+  }
+}
