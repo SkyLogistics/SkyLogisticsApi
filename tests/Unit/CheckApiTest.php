@@ -3,7 +3,6 @@
 namespace SkyLogisticsTest\Unit;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use PHPUnit\Framework\TestCase;
 use SkyLogistics\Service\SkyApiService;
 
@@ -21,7 +20,8 @@ class CheckApiTest extends TestCase
     protected function setUp(): void
     {
         $this->service = new SkyApiService(new Client);
-        require 'env.php';
+        $credentials = [];
+        require __DIR__.'../../env.php';
         if ($credentials === []) {
             exit('Check your env.php file and put credentials');
         }
@@ -30,8 +30,6 @@ class CheckApiTest extends TestCase
 
     /**
      * @test
-     *
-     * @throws GuzzleException
      */
     public function testApiServiceGetStatuses(): void
     {
@@ -46,8 +44,6 @@ class CheckApiTest extends TestCase
 
     /**
      * @test
-     *
-     * @throws GuzzleException
      */
     public function testApiServiceWrongCredentials(): void
     {
@@ -60,8 +56,6 @@ class CheckApiTest extends TestCase
 
     /**
      * @test
-     *
-     * @throws GuzzleException
      */
     public function testApiServiceGetWarehousesNovaPoshtaFirstPage(): void
     {
@@ -78,8 +72,6 @@ class CheckApiTest extends TestCase
 
     /**
      * @test
-     *
-     * @throws GuzzleException
      */
     public function testApiServiceGetWarehousesUkrPoshtaFirstPage(): void
     {
@@ -96,8 +88,6 @@ class CheckApiTest extends TestCase
 
     /**
      * @test
-     *
-     * @throws GuzzleException
      */
     public function testApiServiceGetWarehousesJustinFirstPage(): void
     {
