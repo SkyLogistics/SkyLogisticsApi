@@ -1,10 +1,10 @@
 {
-  "name": "akravchuk/docker-php74-composer-phpunit",
+  "name": "docker-php74-composer-phpunit",
   "description": "Sky logistics docker project for console php 7.4 projects with composer and phpunit.",
   "authors": [
     {
-      "name": "Aleksandr Kravchuk",
-      "email": "aleksandr.kravchuk.os@gmail.com"
+      "name": "Aleksandr",
+      "email": "leos20001@gmail.com"
     }
   ],
   "require": {
