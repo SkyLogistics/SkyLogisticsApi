@@ -20,8 +20,8 @@ class CheckApiTest extends TestCase
     protected function setUp(): void
     {
         $this->service = new SkyApiService(new Client);
-        $credentials = [];
-        require __DIR__.'../../env.php';
+        $credentials   = [];
+        require __DIR__ . '../../env.php';
         if ($credentials === []) {
             exit('Check your env.php file and put credentials');
         }
