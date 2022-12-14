@@ -9,7 +9,6 @@ use SkyLogistics\Service\SkyApiService;
 require __DIR__ . '/../vendor/autoload.php';
 $apiService = new SkyApiService();
 $parcels = [];
-$apiService->setEnvironment('dev');
 
 // see details of parameters here /docs/api/create/parcel in Sky Admin Panel
 

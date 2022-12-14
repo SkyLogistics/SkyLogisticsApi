@@ -8,7 +8,6 @@ use SkyLogistics\Service\SkyApiService;
 
 require __DIR__ . '/../vendor/autoload.php';
 $apiService = new SkyApiService();
-$apiService->setEnvironment('dev');
 
 // GET WAREHOUSES.
 // NOVA POSHTA FIRST PAGE
