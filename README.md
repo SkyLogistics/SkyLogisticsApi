@@ -62,14 +62,6 @@ Get statuses
 
      docker exec -it php74-cli php examples/getStatuses.php
 
-Get warehouses NovaPoshta
+Get warehouses
 
-     docker exec -it php74-cli php examples/getWarehousesNovaPoshta.php
-
-Get warehouses UkrPoshta
-
-     docker exec -it php74-cli php examples/getWarehousesUkrPoshta.php
-
-Get warehouses Justin
-
-     docker exec -it php74-cli php examples/getWarehousesJustin.php
+     docker exec -it php74-cli php examples/getWarehouses.php

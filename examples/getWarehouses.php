@@ -19,11 +19,8 @@ $warehouses = $apiService->getWarehouse(
     SkyApiService::DEFAULT_PAGE
 );
 
-if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
-    print_r($warehouses['response']['result']);
-} else {
-    print_r($warehouses['errors']);
-}
+print_r($warehouses);
+
 
 // UKR POSHTA FIRST PAGE
 $warehouses = $apiService->getWarehouse(
@@ -31,11 +28,9 @@ $warehouses = $apiService->getWarehouse(
     SkyApiService::DEFAULT_COUNT_RESULTS,
     SkyApiService::DEFAULT_PAGE
 );
-if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
-    print_r($warehouses['response']['result']);
-} else {
-    print_r($warehouses['errors']);
-}
+
+print_r($warehouses);
+
 
 // JUSTIN FIRST PAGE
 $warehouses = $apiService->getWarehouse(
@@ -43,8 +38,5 @@ $warehouses = $apiService->getWarehouse(
     SkyApiService::DEFAULT_COUNT_RESULTS,
     SkyApiService::DEFAULT_PAGE
 );
-if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
-    print_r($warehouses['response']['result']);
-} else {
-    print_r($warehouses['errors']);
-}
+
+print_r($warehouses);

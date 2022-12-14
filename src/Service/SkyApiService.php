@@ -17,7 +17,7 @@ class SkyApiService
     const ENV_TEST = 'test';
     const ENV_DEV = 'dev';
 
-    const WRONG_CREDENTIALS = 'login or/and key is empty';
+    const WRONG_env = 'login or/and key is empty';
 
     const NOVA_POSHTA = '000000001';
     const UKR_POSHTA = '000000004';
@@ -38,7 +38,20 @@ class SkyApiService
      */
     private Client $guzzle;
 
-    private $credentials = [];
+    /**
+     * @var Dotenv
+     */
+    private Dotenv $env;
+
+    /**
+     * @var string|null
+     */
+    private string $apiLogin;
+
+    /**
+     * @var string|null
+     */
+    private string $apiKey;
 
     /**
      * @var string
@@ -53,7 +66,12 @@ class SkyApiService
     public function __construct(Client $client)
     {
         $this->guzzle = $client;
-        $this->credentials = Dotenv::createImmutable(__DIR__ . '../../');
+        $this->env = Dotenv::createImmutable('./');
+        $this->env->load();
+        $this->env->required('API_LOGIN')->notEmpty();
+        $this->env->required('API_KEY')->notEmpty();
+        $this->apiLogin = $this->env->load()['API_LOGIN'];
+        $this->apiKey = $this->env->load()['API_KEY'];
     }
 
     /**
@@ -85,68 +103,42 @@ class SkyApiService
     }
 
     /**
-     * Check if login and key is set.
-     *
-     * @return bool
-     */
-    private function isAuth(): bool
-    {
-        if ($this->credentials['API_LOGIN'] !== '' && $this->credentials['API_KEY'] !== '') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Get all statuses from SkyLogistics API.
      *
      * @return array
      */
     public function getStatuses(): array
     {
-        $errors = [];
-        $success = false;
         $result = [];
+        try {
+            $response = $this->guzzle->post($this->getApiUrl() . 'v2/get/statuses', [
+                RequestOptions::JSON => [
+                    'login' => $this->apiLogin,
+                    'key' => $this->apiKey,
+                ]
+            ]);
+            $result = json_decode($response->getBody()->getContents(), true);
+        } catch (GuzzleException $exception) {
+            $result['errors'] = $exception->getMessage();
+        }
 
-            try {
-                $response = $this->guzzle->post($this->getApiUrl() . 'v2/get/statuses', [
-                    RequestOptions::JSON => [
-                        'login' => $this->credentials['API_LOGIN'],
-                        'key' => $this->credentials['API_KEY'],
-                    ]
-                ]);
-                $result = json_decode($response->getBody()->getContents(), true);
-                if (!$result['errors']) {
-                    $success = true;
-                }
-            } catch (GuzzleException $exception) {
-                $errors[] = $exception->getMessage();
-            }
-
-        return [
-            'success' => $success,
-            'errors' => $errors,
-            'response' => $result,
-        ];
+        return $result;
     }
 
     /**
      * Get warehouses from API.
      *
-     * @param string $courierServiceId
+     * @param string $courierService
      * @param int $countResultsOnPage
      * @param int $page
      *
      * @return array
      */
     public function getWarehouse(
-        string $courierServiceId,
+        string $courierService,
         int $countResultsOnPage = self::DEFAULT_COUNT_RESULTS,
         int $page = 1
     ): array {
-        $errors = [];
-        $success = false;
         $result = [];
 
         if ($page <= 0) {
@@ -157,36 +149,31 @@ class SkyApiService
             $page = self::DEFAULT_COUNT_RESULTS;
         }
 
-        if (!in_array($courierServiceId, self::COURIER_SERVICES)) {
-            $errors[] = sprintf(
+        if (!in_array($courierService, self::COURIER_SERVICES)) {
+            $result['errors'][] = sprintf(
                 'CourierServiceId can be only one of this values %s',
                 json_encode(self::COURIER_SERVICES)
             );
         }
 
-        if (!$errors) {
-            $success = true;
+        if (!$result['errors']) {
             try {
                 $response = $this->guzzle->post($this->getApiUrl() . 'v2/get/warehouses', [
                     RequestOptions::JSON => [
-                        'login' => $this->credentials['API_LOGIN'],
-                        'key' => $this->credentials['API_KEY'],
-                        'CourierServiceId' => $courierServiceId,
+                        'login' => $this->apiLogin,
+                        'key' => $this->apiKey,
+                        'CourierServiceId' => $courierService,
                         'Page' => $page,
                         'CountResultsOnPage' => $countResultsOnPage
                     ]
                 ]);
                 $result = json_decode($response->getBody()->getContents(), true);
             } catch (GuzzleException $exception) {
-                $errors[] = $exception->getMessage();
+                $result['errors'][] = $exception->getMessage();
             }
         }
 
-        return [
-            'success' => $success,
-            'errors' => $errors,
-            'response' => $result,
-        ];
+        return $result;
     }
 
     /**
@@ -205,8 +192,8 @@ class SkyApiService
         try {
             $response = $this->guzzle->post($this->getApiUrl() . 'v2/get/parcelInfo', [
                 RequestOptions::JSON => [
-                    'login' => $this->credentials['API_LOGIN'],
-                    'key' => $this->credentials['API_KEY'],
+                    'login' => $this->apiLogin,
+                    'key' => $this->apiKey,
                     'parcelNumber' => $parcelNumber,
                 ]
             ]);
