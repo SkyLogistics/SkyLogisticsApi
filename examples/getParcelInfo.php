@@ -2,12 +2,11 @@
 
 namespace SkyLogistics;
 
-use GuzzleHttp\Client;
 use SkyLogistics\Service\SkyApiService;
 
 require __DIR__ . '/../vendor/autoload.php';
-$apiService = new SkyApiService(new Client());
-//$apiService->setEnvironment('test');
+$apiService = new SkyApiService();
+$apiService->setEnvironment('dev');
 
 // GET PARCEL INFO.
 print_r($apiService->getParcelInfo('CR115533038PL'));

@@ -12,20 +12,18 @@ use GuzzleHttp\RequestOptions;
 class SkyApiService
 {
     const API_SKY_SERVICE_URL = 'https://api2.skylogisticspl.com/';
-    //const API_SKY_SERVICE_TEST_URL = 'https://test.skylogisticspl.com/';
+    const API_SKY_SERVICE_TEST_URL = 'https://0.0.0.0/';
 
     const ENV_TEST = 'test';
-    const ENV_DEV = 'dev';
+    const ENV_DEV  = 'dev';
 
-    const WRONG_env = 'login or/and key is empty';
-
-    const NOVA_POSHTA = '000000001';
-    const UKR_POSHTA = '000000004';
-    const JUSTIN = '000000006';
+    const NOVA_POSHTA       = '000000001';
+    const UKR_POSHTA        = '000000004';
+    const JUSTIN            = '000000006';
     const PARCEL_REGISTERED = 'Отправление зарегистрировано';
 
     const DEFAULT_COUNT_RESULTS = 10;
-    const DEFAULT_PAGE = 1;
+    const DEFAULT_PAGE          = 1;
 
     const COURIER_SERVICES = [
         self::NOVA_POSHTA,
@@ -60,18 +58,16 @@ class SkyApiService
 
     /**
      * ApiService constructor.
-     *
-     * @param Client $client
      */
-    public function __construct(Client $client)
+    public function __construct()
     {
-        $this->guzzle = $client;
-        $this->env = Dotenv::createImmutable('./');
+        $this->guzzle = new Client();
+        $this->env    = Dotenv::createImmutable('./');
         $this->env->load();
         $this->env->required('API_LOGIN')->notEmpty();
         $this->env->required('API_KEY')->notEmpty();
         $this->apiLogin = $this->env->load()['API_LOGIN'];
-        $this->apiKey = $this->env->load()['API_KEY'];
+        $this->apiKey   = $this->env->load()['API_KEY'];
     }
 
     /**
@@ -81,10 +77,9 @@ class SkyApiService
      */
     public function getApiUrl(): string
     {
-//        THIS IS NOT WORKING FOR NOW
-//        if ($this->environment === self::ENV_TEST) {
-//            return self::API_SKY_SERVICE_TEST_URL;
-//        }
+        if ($this->environment === self::ENV_TEST) {
+            return self::API_SKY_SERVICE_TEST_URL;
+        }
 
         return self::API_SKY_SERVICE_URL;
     }
@@ -114,7 +109,7 @@ class SkyApiService
             $response = $this->guzzle->post($this->getApiUrl() . 'v2/get/statuses', [
                 RequestOptions::JSON => [
                     'login' => $this->apiLogin,
-                    'key' => $this->apiKey,
+                    'key'   => $this->apiKey,
                 ]
             ]);
             $result = json_decode($response->getBody()->getContents(), true);
@@ -160,10 +155,10 @@ class SkyApiService
             try {
                 $response = $this->guzzle->post($this->getApiUrl() . 'v2/get/warehouses', [
                     RequestOptions::JSON => [
-                        'login' => $this->apiLogin,
-                        'key' => $this->apiKey,
-                        'CourierServiceId' => $courierService,
-                        'Page' => $page,
+                        'login'              => $this->apiLogin,
+                        'key'                => $this->apiKey,
+                        'CourierServiceId'   => $courierService,
+                        'Page'               => $page,
                         'CountResultsOnPage' => $countResultsOnPage
                     ]
                 ]);
@@ -185,28 +180,22 @@ class SkyApiService
      */
     public function getParcelInfo(string $parcelNumber): array
     {
-        $success = false;
         $result = [];
-        $errors = [];
 
         try {
             $response = $this->guzzle->post($this->getApiUrl() . 'v2/get/parcelInfo', [
                 RequestOptions::JSON => [
-                    'login' => $this->apiLogin,
-                    'key' => $this->apiKey,
+                    'login'        => $this->apiLogin,
+                    'key'          => $this->apiKey,
                     'parcelNumber' => $parcelNumber,
                 ]
             ]);
             $result = json_decode($response->getBody()->getContents(), true);
         } catch (GuzzleException $exception) {
-            $errors[] = $exception->getMessage();
+            $result['errors'][] = $exception->getMessage();
         }
 
-        return [
-            'success' => $success,
-            'errors' => $errors,
-            'response' => $result,
-        ];
+        return $result;
     }
 
     /**
@@ -218,8 +207,8 @@ class SkyApiService
      */
     public function createParcel(array $parcelData): array
     {
-        $errors = [];
-        $success = false;
+        $errors   = [];
+        $success  = false;
         $dataJson = json_encode($parcelData);
 
 
@@ -227,7 +216,7 @@ class SkyApiService
 
         return [
             'success' => $success,
-            'errors' => $errors
+            'errors'  => $errors
         ];
     }
 }
