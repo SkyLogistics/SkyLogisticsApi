@@ -1,5 +1,5 @@
 {
-  "name": "docker-php74-composer-phpunit",
+  "name": "docker-php74-composer-phpunit/sky-php-project",
   "description": "Sky logistics docker project for console php 7.4 projects with composer and phpunit.",
   "authors": [
     {

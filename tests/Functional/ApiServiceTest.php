@@ -1,19 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace ReviewTest\Unit;
+namespace SkyLogisticsTest\Functional;
 
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
-use Review\Service\SkyApiService;
+use SkyLogistics\Service\SkyApiService;
+
 
 /**
  * Class InvestmentTest
  */
 class ApiServiceTest extends TestCase
 {
-    /**
-     * @var SkyApiService
-     */
+
     private SkyApiService $apiService;
 
     /**

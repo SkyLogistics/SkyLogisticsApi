@@ -38,8 +38,8 @@ class CheckApiTest extends TestCase
         $this->assertEquals(true, $statuses['response']['success']);
         $this->assertEquals([], $statuses['response']['errors']);
         $this->assertEquals(1, $statuses['response']['result'][0]['id']);
-        $this->assertEquals('000000001', $statuses['response']['result'][0]['code']);
-        $this->assertEquals('Отправление зарегистрировано', $statuses['response']['result'][0]['name']);
+        $this->assertEquals(SkyApiService::DEFAULT_COUNT_RESULTS, $statuses['response']['result'][0]['code']);
+        $this->assertEquals(SkyApiService::PARCEL_REGISTERED, $statuses['response']['result'][0]['name']);
     }
 
     /**
@@ -47,7 +47,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceWrongCredentials(): void
     {
-        $this->service->auth('admin', 'test');
+        $this->service->auth(SkyApiService::SOME_LOGIN, SkyApiService::SOME_KEY);
         $response = $this->service->getStatuses();
         $this->assertEquals(false, $response['response']['success']);
         $this->assertEquals([], $response['response']['result']);
@@ -59,7 +59,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesNovaPoshtaFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses('000000001', 10, 1);
+        $warehouses = $this->service->getWarehouses(SkyApiService::NOVA_POSHTA, 10, 1);
         $novaPoshta = [];
         if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
             foreach ($warehouses['response']['result'] as $warehouse) {
@@ -67,7 +67,7 @@ class CheckApiTest extends TestCase
             }
         }
 
-        $this->assertCount(10, $novaPoshta);
+        $this->assertCount(SkyApiService::DEFAULT_COUNT_RESULTS, $novaPoshta);
     }
 
     /**
@@ -75,7 +75,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesUkrPoshtaFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses('000000004', 10, 1);
+        $warehouses = $this->service->getWarehouses(SkyApiService::UKR_POSHTA, 10, 1);
         $ukrPoshta  = [];
         if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
             foreach ($warehouses['response']['result'] as $warehouse) {
@@ -83,7 +83,7 @@ class CheckApiTest extends TestCase
             }
         }
 
-        $this->assertCount(10, $ukrPoshta);
+        $this->assertCount(SkyApiService::DEFAULT_COUNT_RESULTS, $ukrPoshta);
     }
 
     /**
@@ -91,7 +91,11 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesJustinFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses('000000006', 10, 1);
+        $warehouses = $this->service->getWarehouses(
+            SkyApiService::JUSTIN,
+            SkyApiService::DEFAULT_COUNT_RESULTS,
+            SkyApiService::DEFAULT_PAGE
+        );
         $justin     = [];
         if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
             foreach ($warehouses['response']['result'] as $warehouse) {
@@ -99,6 +103,6 @@ class CheckApiTest extends TestCase
             }
         }
 
-        $this->assertCount(10, $justin);
+        $this->assertCount(SkyApiService::DEFAULT_COUNT_RESULTS, $justin);
     }
 }
