@@ -14,7 +14,8 @@
     "ext-libxml": "*",
     "ext-bcmath": "*",
     "ext-mbstring": "*",
-    "guzzlehttp/guzzle": "^7.2"
+    "guzzlehttp/guzzle": "^7.2",
+    "vlucas/phpdotenv": "^5.5"
   },
   "autoload": {
     "psr-4": {

@@ -47,7 +47,6 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceWrongCredentials(): void
     {
-        $this->service->auth(SkyApiService::SOME_LOGIN, SkyApiService::SOME_KEY);
         $response = $this->service->getStatuses();
         $this->assertEquals(false, $response['response']['success']);
         $this->assertEquals([], $response['response']['result']);
@@ -59,7 +58,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesNovaPoshtaFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses(SkyApiService::NOVA_POSHTA, 10, 1);
+        $warehouses = $this->service->getWarehouse(SkyApiService::NOVA_POSHTA, 10, 1);
         $novaPoshta = [];
         if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
             foreach ($warehouses['response']['result'] as $warehouse) {
