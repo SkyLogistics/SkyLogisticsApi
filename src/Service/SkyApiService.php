@@ -207,15 +207,20 @@ class SkyApiService
      */
     public function createParcel(array $parcelData): array
     {
-        $errors   = [];
-        $success  = false;
-        $dataJson = json_encode($parcelData);
+        $parcelData['login'] = $this->apiLogin;
+        $parcelData['key'] = $this->apiKey;
 
-        //TODO: CREATE PARCEL
+        $result = [];
 
-        return [
-            'success' => $success,
-            'errors'  => $errors
-        ];
+        try {
+            $response = $this->guzzle->post($this->getApiUrl() . 'v2/create/parcel', [
+                RequestOptions::JSON => $parcelData
+            ]);
+            $result = json_decode($response->getBody()->getContents(), true);
+        } catch (GuzzleException $exception) {
+            $result['errors'][] = $exception->getMessage();
+        }
+
+        return $result;
     }
 }

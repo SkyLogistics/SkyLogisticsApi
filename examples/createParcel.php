@@ -9,7 +9,7 @@ use SkyLogistics\Service\SkyApiService;
 require __DIR__ . '/../vendor/autoload.php';
 $apiService = new SkyApiService();
 $parcels = [];
-$apiService->setEnvironment('test');
+$apiService->setEnvironment('dev');
 
 // see details of parameters here /docs/api/create/parcel in Sky Admin Panel
 
@@ -57,6 +57,8 @@ $dataNovaPoshta = [
 ];
 $parcels['novaWarehouse'] = $apiService->createParcel($dataNovaPoshta);
 
+print_r($parcels);
+exit();
 
 // Request. Create parcel, delivery to UkrPoshta warehouse.
 $dataUkrPoshta = [
