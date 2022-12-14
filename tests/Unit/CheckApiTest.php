@@ -74,7 +74,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesUkrPoshtaFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses(SkyApiService::UKR_POSHTA, 10, 1);
+        $warehouses = $this->service->getWarehouse(SkyApiService::UKR_POSHTA, 10, 1);
         $ukrPoshta  = [];
         if (!$warehouses['errors'] && !$warehouses['response']['errors']) {
             foreach ($warehouses['response']['result'] as $warehouse) {
@@ -90,7 +90,7 @@ class CheckApiTest extends TestCase
      */
     public function testApiServiceGetWarehousesJustinFirstPage(): void
     {
-        $warehouses = $this->service->getWarehouses(
+        $warehouses = $this->service->getWarehouse(
             SkyApiService::JUSTIN,
             SkyApiService::DEFAULT_COUNT_RESULTS,
             SkyApiService::DEFAULT_PAGE

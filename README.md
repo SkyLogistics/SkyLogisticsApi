@@ -54,6 +54,10 @@ Static analysis check
 	    
 ## Results
 
+Create parcel
+
+     docker exec -it php74-cli php examples/createParcel.php
+
 Get Parcel Info (history, statuses, info)
 
      docker exec -it php74-cli php examples/getParcelInfo.php

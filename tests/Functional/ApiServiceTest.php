@@ -2,7 +2,6 @@
 
 namespace SkyLogisticsTest\Functional;
 
-use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use SkyLogistics\Service\SkyApiService;
 
@@ -20,7 +19,7 @@ class ApiServiceTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->apiService = new SkyApiService(new Client());
+        $this->apiService = new SkyApiService();
     }
 
     /**

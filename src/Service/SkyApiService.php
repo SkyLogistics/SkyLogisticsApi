@@ -11,7 +11,7 @@ use GuzzleHttp\RequestOptions;
 
 class SkyApiService
 {
-    const API_SKY_SERVICE_URL = 'https://api2.skylogisticspl.com/';
+    const API_SKY_SERVICE_URL      = 'https://api2.skylogisticspl.com/';
     const API_SKY_SERVICE_TEST_URL = 'https://0.0.0.0/';
 
     const ENV_TEST = 'test';
@@ -211,8 +211,7 @@ class SkyApiService
         $success  = false;
         $dataJson = json_encode($parcelData);
 
-
-        //CREATE PARCEL
+        //TODO: CREATE PARCEL
 
         return [
             'success' => $success,
