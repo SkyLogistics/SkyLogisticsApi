@@ -42,12 +42,12 @@ class SkyApiService
     private Dotenv $env;
 
     /**
-     * @var string|null
+     * @var string
      */
     private string $apiLogin;
 
     /**
-     * @var string|null
+     * @var string
      */
     private string $apiKey;
 
@@ -134,7 +134,8 @@ class SkyApiService
         int $countResultsOnPage = self::DEFAULT_COUNT_RESULTS,
         int $page = 1
     ): array {
-        $result = [];
+        $result           = [];
+        $result['errors'] = [];
 
         if ($page <= 0) {
             $page = self::DEFAULT_PAGE;
@@ -208,7 +209,7 @@ class SkyApiService
     public function createParcel(array $parcelData): array
     {
         $parcelData['login'] = $this->apiLogin;
-        $parcelData['key'] = $this->apiKey;
+        $parcelData['key']   = $this->apiKey;
 
         $result = [];
 
